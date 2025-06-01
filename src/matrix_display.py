@@ -7,9 +7,6 @@ import argparse
 from PIL import Image
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
-sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/..'))
-
-
 class MatrixDisplay:
     """Matrix display class to handle rendering on a single or multiple matrices."""
 
@@ -69,7 +66,7 @@ class MatrixDisplay:
         self.panel_type = ""
 
         # Don't drop privileges from 'root' after initializing the hardware.
-        self.drop_privileges = True
+        self.drop_privileges = False
 
         self.parser = argparse.ArgumentParser()
         self.parser.add_argument("-a", "--animation", action="store",
@@ -85,7 +82,7 @@ class MatrixDisplay:
         """Run the matrix display."""
         print("Running")
 
-        self.display_image('./animations/' + self.args.animation + '/1.jpg')
+        self.display_images('./animations/' + self.args.animation)
 
     def setup(self):
         """Setup matrix display."""
@@ -133,20 +130,19 @@ class MatrixDisplay:
             sys.exit(0)
 
         return True
-    
+
     def display_images(self, folder_path):
         """Display a folder of images"""
 
         if not os.path.exists(folder_path) and os.path.isdir(folder_path):
             print('Unable to find image folder\n')
             return
-        
+
         files = os.listdir(folder_path).sort()
 
         for file in files:
             self.display_image(file)
-            self.usleep(5 * 1000)
-        
+            self.usleep(10)
 
     def display_image(self, image_path):
         """Display an image on the matrix display."""
@@ -162,39 +158,6 @@ class MatrixDisplay:
 
         self.offscreen_canvas.SetImage(image)
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
-
-    def pulse_colour(self):
-        """Pulse a range of colours onto the matrix display."""
-
-        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
-        continuum = 0
-
-        while True:
-            self.usleep(5 * 1000)
-            continuum += 1
-            continuum %= 3 * 255
-
-            red = 0
-            green = 0
-            blue = 0
-
-            if continuum <= 255:
-                c = continuum
-                blue = 255 - c
-                red = c
-            elif continuum > 255 and continuum <= 511:
-                c = continuum - 256
-                red = 255 - c
-                green = c
-            else:
-                c = continuum - 512
-                green = 255 - c
-                blue = c
-
-            self.offscreen_canvas.Fill(red, green, blue)
-            self.offscreen_canvas = self.matrix.SwapOnVSync(
-                self.offscreen_canvas)
-
 
 # Main function
 if __name__ == "__main__":
