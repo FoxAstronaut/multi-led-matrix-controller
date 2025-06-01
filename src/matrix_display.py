@@ -72,7 +72,8 @@ class MatrixDisplay:
         self.drop_privileges = True
 
         self.parser = argparse.ArgumentParser()
-        self.parser.add_argument("-a", "--animation", action="store", help="Which animation to show", default="sample", type=str)
+        self.parser.add_argument("-a", "--animation", action="store",
+                                 help="Which animation to show", default="sample", type=str)
 
         self.args = self.parser.parse_args()
 
@@ -84,7 +85,7 @@ class MatrixDisplay:
         """Run the matrix display."""
         print("Running")
 
-        self.display_image('./animations/'  + self.args.animation + '/1.jpg')
+        self.display_image('./animations/' + self.args.animation + '/1.jpg')
 
     def setup(self):
         """Setup matrix display."""
@@ -125,6 +126,8 @@ class MatrixDisplay:
             # Start loop
             print("Press CTRL-C to stop sample")
             self.run()
+            while True:
+                time.sleep(100)
         except KeyboardInterrupt:
             print("Exiting\n")
             sys.exit(0)
