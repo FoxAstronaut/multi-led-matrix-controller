@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import sys
+
 class MatrixDisplay():
     def __init__(self, *args, **kwargs):
         super(MatrixDisplay, self).__init__(*args, **kwargs)
@@ -35,3 +37,10 @@ class MatrixDisplay():
 # Main function
 if __name__ == "__main__":
     matrix_display = MatrixDisplay()
+
+    try:
+      # Start loop
+      print("Press CTRL-C to stop sample")
+    except KeyboardInterrupt:
+      print("Exiting\n")
+      sys.exit(0)
