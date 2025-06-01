@@ -3,6 +3,7 @@
 import os
 import sys
 import time
+from PIL import Image
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/..'))
@@ -19,7 +20,7 @@ class MatrixDisplay:
         self.rows = 16
 
         # Panel columns. Typically 32 or 64. (Default: 32)
-        self.cols = 32
+        self.cols = 64
 
         # Daisy-chained boards. Default: 1.
         self.chain = 1
@@ -76,7 +77,7 @@ class MatrixDisplay:
     def run(self):
         """Run the matrix display."""
         print("Running")
-        self.pulse_colour()
+        self.display_image('./animations/sample/1.jph')
 
     def setup(self):
         """Setup matrix display."""
@@ -122,6 +123,21 @@ class MatrixDisplay:
             sys.exit(0)
 
         return True
+    
+    def display_image(self, image_path):
+        """Display an image on the matrix display."""
+
+        if not os.path.exists(image_path):
+            return
+
+        self.offscreen_canvas = self.matrix.CreateFrameCanvas()
+
+        image = Image.open(image_path)
+        image = image.convert("RGB")
+        image.thumbnail((self.cols, self.rows), Image.ANTIALIAS)
+
+        self.offscreen_canvas.SetImage(image)
+        self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
 
     def pulse_colour(self):
         """Pulse a range of colours onto the matrix display."""
@@ -155,9 +171,10 @@ class MatrixDisplay:
             self.offscreen_canvas = self.matrix.SwapOnVSync(
                 self.offscreen_canvas)
 
+
 # Main function
 if __name__ == "__main__":
     matrix_display = MatrixDisplay()
-    if (not matrix_display.setup()):
+    if not matrix_display.setup():
         print("Failed to process the matrix display options.")
         sys.exit(1)
