@@ -33,10 +33,10 @@ class MatrixDisplay:
         self.pwm_bits = 11
 
         # Sets brightness level. Default: 100. Range: 1..100
-        self.brightness = 100
+        self.brightness = 50
 
         # Hardware Mapping: regular, adafruit-hat, adafruit-hat-pwm
-        self.gpio_mapping = None
+        self.gpio_mapping = "regular"
 
         # Progressive or interlaced scan. 0 Progressive, 1 Interlaced (default)
         self.scan_mode = 1
@@ -145,7 +145,6 @@ class MatrixDisplay:
 
         image = Image.open(image_path)
         image = image.convert("RGB")
-        image.thumbnail((self.cols, self.rows), Image.ANTIALIAS)
 
         self.offscreen_canvas.SetImage(image)
         self.offscreen_canvas = self.matrix.SwapOnVSync(self.offscreen_canvas)
