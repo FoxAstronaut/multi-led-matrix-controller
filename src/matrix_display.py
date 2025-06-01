@@ -3,6 +3,7 @@
 import os
 import sys
 import time
+import argparse
 from PIL import Image
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
@@ -70,6 +71,11 @@ class MatrixDisplay:
         # Don't drop privileges from 'root' after initializing the hardware.
         self.drop_privileges = True
 
+        self.parser = argparse.ArgumentParser()
+        self.parser.add_argument("-a", "--animation", action="store", help="Which animation to show", default="sample", type=str)
+
+        self.args = self.parser.parse_args()
+
     def usleep(self, value):
         """Sleep for a given number of microseconds."""
         time.sleep(value / 1000000.0)
@@ -77,7 +83,8 @@ class MatrixDisplay:
     def run(self):
         """Run the matrix display."""
         print("Running")
-        self.display_image('./animations/sample/1.jph')
+
+        self.display_image('./animations/'  + self.args.animation + '/1.jpg')
 
     def setup(self):
         """Setup matrix display."""
@@ -123,11 +130,12 @@ class MatrixDisplay:
             sys.exit(0)
 
         return True
-    
+
     def display_image(self, image_path):
         """Display an image on the matrix display."""
 
         if not os.path.exists(image_path):
+            print('Unable to find image\n')
             return
 
         self.offscreen_canvas = self.matrix.CreateFrameCanvas()
