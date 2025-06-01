@@ -1,10 +1,12 @@
 # The top level Makefile compiles the library in the lib subdirectory.
-RGB_LIBDIR=./lib
+
+# RGB led matrix library
+RGB_LIBDIR=./lib/rgbmatrix
 RGB_LIBRARY_NAME=rgbmatrix
-RGB_LIBRARY=$(RGB_LIBDIR)/lib$(RGB_LIBRARY_NAME).a
+RGB_LIBRARY=$(RGB_LIBDIR)/$(RGB_LIBRARY_NAME).a
 
 # Some language bindings.
-PYTHON_LIB_DIR=./python
+PYTHON_LIB_DIR=./src
 
 all : $(RGB_LIBRARY)
 

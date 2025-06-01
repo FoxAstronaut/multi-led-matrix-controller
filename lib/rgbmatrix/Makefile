@@ -171,7 +171,7 @@ HARDWARE_DESC?=regular
 DEFINES+=$(USER_DEFINES)
 
 DEFINES+=-DDEFAULT_HARDWARE='"$(HARDWARE_DESC)"'
-INCDIR=../include
+INCDIR=./include
 CFLAGS=-W -Wall -Wextra -Wno-unused-parameter -O3 -g -fPIC $(DEFINES) -march=native
 CXXFLAGS=$(CFLAGS) -fno-exceptions -std=c++11
 

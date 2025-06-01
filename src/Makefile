@@ -13,9 +13,9 @@ TXTTOMAN := a2x -f manpage
 
 # Where our library resides. It is split between includes and the binary
 # library in lib
-RGB_LIBDIR=../../lib
+RGB_LIBDIR=../lib/rgbmatrix
 RGB_LIBRARY_NAME=rgbmatrix
-RGB_LIBRARY=$(RGB_LIBDIR)/lib$(RGB_LIBRARY_NAME).a
+RGB_LIBRARY=$(RGB_LIBDIR)/$(RGB_LIBRARY_NAME).a
 
 ifneq "$(wildcard debian/changelog)" ""
 PKGNAME := $(shell dpkg-parsechangelog | sed -n 's/^Source: //p')
