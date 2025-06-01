@@ -18,7 +18,7 @@ class MatrixDisplay:
         self.offscreen_canvas = None
 
         # Display rows. 16 for 16x32, 32 for 32x32. Default: 16
-        self.rows = 16
+        self.rows = 32
 
         # Panel columns. Typically 32 or 64. (Default: 32)
         self.cols = 64
