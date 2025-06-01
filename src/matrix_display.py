@@ -133,6 +133,20 @@ class MatrixDisplay:
             sys.exit(0)
 
         return True
+    
+    def display_images(self, folder_path):
+        """Display a folder of images"""
+
+        if not os.path.exists(folder_path) and os.path.isdir(folder_path):
+            print('Unable to find image folder\n')
+            return
+        
+        files = os.listdir(folder_path).sort()
+
+        for file in files:
+            self.display_image(file)
+            self.usleep(5 * 1000)
+        
 
     def display_image(self, image_path):
         """Display an image on the matrix display."""
